@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz - Arte Transportes</title>
+    <!-- Substitua o <style> atual por este atualizado -->
+
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Segoe UI", sans-serif;
+        background: linear-gradient(to right, #1555de, #ff3333);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      #quiz-container {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        padding: 30px;
+        width: 100%;
+        max-width: 600px;
+        animation: fadeIn 1s ease-in;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: scale(0.95);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      #quiz-image {
+        width: 80px;
+        height: auto;
+        display: block;
+        margin: 0 auto 20px;
+      }
+
+      h1 {
+        text-align: center;
+        color: #004aad;
+        margin-bottom: 25px;
+        font-size: 28px;
+      }
+
+      #question {
+        font-size: 20px;
+        margin-bottom: 20px;
+        color: #333;
+        text-align: center;
+      }
+
+      .option {
+        background: #efedff;
+        border: 2px solid #004aad;
+        border-radius: 8px;
+        padding: 12px;
+        margin: 10px 0;
+        width: 100%;
+        font-size: 16px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .option:hover {
+        background-color: #004aad;
+        color: white;
+        transform: scale(1.02);
+      }
+
+      #buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      button {
+        flex: 1;
+        padding: 12px;
+        font-size: 16px;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+
+      #prev {
+        background-color: #2da6c4;
+        color: white;
+      }
+
+      #prev:hover {
+        background-color: #1a0ba2;
+      }
+
+      #next {
+        background-color: #ff3333;
+        color: white;
+      }
+
+      #next:hover {
+        background-color: #cc0000;
+      }
+
+      #restart {
+        display: none;
+        background-color: #004aad;
+        color: white;
+        margin-top: 20px;
+        width: 100%;
+      }
+
+      #restart:hover {
+        background-color: #002f6c;
+      }
+
+      #resultado {
+        font-weight: bold;
+        margin-top: 15px;
+        font-size: 16px;
+        text-align: center;
+      }
+
+      #placar-final {
+        margin-top: 25px;
+        font-size: 18px;
+        color: #004aad;
+        text-align: center;
+      }
+
+      #creditos {
+        text-align: center;
+        font-size: 14px;
+        margin-top: 30px;
+        color: #404cfb;
+      }
+
+      /* Responsividade para tablets e celulares */
+      @media (max-width: 768px) {
+        #quiz-container {
+          padding: 20px;
+        }
+
+        .option {
+          font-size: 15px;
+          padding: 10px;
+        }
+
+        button {
+          font-size: 15px;
+          padding: 10px;
+        }
+
+        h1 {
+          font-size: 24px;
+        }
+
+        #question {
+          font-size: 18px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        #buttons {
+          flex-direction: column;
+        }
+
+        .option {
+          font-size: 14px;
+        }
+
+        button {
+          font-size: 14px;
+        }
+
+        h1 {
+          font-size: 20px;
+        }
+
+        #question {
+          font-size: 16px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="quiz-container">
+      <center>
+        <img src="arte.webp" />
+      </center>
+      <h1>Quiz - Arte Transportes</h1>
+      <div id="question"></div>
+      <div id="answers"></div>
+      <div id="resultado"></div>
+      <div id="placar-final"></div>
+      <div id="buttons">
+        <button id="prev">Anterior</button>
+        <button id="next">Próxima</button>
+      </div>
+      <button id="restart">Jogar de Novo</button>
+      <div id="creditos">
+        Feito pelos acadêmicos: Iran, Milena, Bruna e Luan.
+      </div>
+    </div>
+
+    <script>
+      const perguntas = [
+        {
+          pergunta:
+            "1. O número de passageiros que utilizam os ônibus diariamente é uma variável:",
+          opcoes: [
+            "a) Qualitativa nominal",
+            "b) Qualitativa ordinal",
+            "c) Quantitativa contínua",
+            "d) Quantitativa discreta",
+          ],
+          correta: "d) Quantitativa discreta",
+        },
+        {
+          pergunta: "2. A idade média dos motoristas é classificada como:",
+          opcoes: [
+            "a) Qualitativa nominal",
+            "b) Quantitativa contínua",
+            "c) Quantitativa discreta",
+            "d) Qualitativa ordinal",
+          ],
+          correta: "b) Quantitativa contínua",
+        },
+        {
+          pergunta:
+            "3. A cor dos uniformes dos motoristas representa uma variável:",
+          opcoes: [
+            "a) Quantitativa contínua",
+            "b) Qualitativa nominal",
+            "c) Qualitativa ordinal",
+            "d) Quantitativa discreta",
+          ],
+          correta: "b) Qualitativa nominal",
+        },
+        {
+          pergunta:
+            "4. O tempo médio de viagem dos trajetos realizados pela empresa é:",
+          opcoes: [
+            "a) Quantitativa contínua",
+            "b) Quantitativa discreta",
+            "c) Qualitativa ordinal",
+            "d) Qualitativa nominal",
+          ],
+          correta: "a) Quantitativa contínua",
+        },
+        {
+          pergunta:
+            "5. A quantidade de ônibus na frota da empresa é uma variável:",
+          opcoes: [
+            "a) Quantitativa contínua",
+            "b) Qualitativa ordinal",
+            "c) Quantitativa discreta",
+            "d) Qualitativa nominal ",
+          ],
+          correta: "c) Quantitativa discreta",
+        },
+        {
+          pergunta:
+            "6. Na empresa Arte Transportes, os motoristas são avaliados quanto ao desempenho com base em categorias como: Insatisfatório, Regular, Bom, Muito Bom e Excelente. Esse tipo de variável é classificado como:",
+          opcoes: [
+            "a) Quantitativa contínua",
+            "b) Qualitativa nominal",
+            "c) Qualitativa ordinal",
+            "d) Quantitativa discreta",
+          ],
+          correta: "c) Quantitativa ordinal",
+        },
+        {
+          pergunta:
+            "7. Os tipos de ônibus oferecidos pela empresa (convencional, executivo, etc.) são classificados como:",
+          opcoes: [
+            "a) Qualitativa ordinal",
+            "b) Quantitativa discreta",
+            "c) Qualitativa nominal",
+            "d) Quantitativa contínua",
+          ],
+          correta: "c) Qualitativa nominal",
+        },
+        {
+          pergunta:
+            "8. A receita mensal da empresa de ônibus é um exemplo de variável:",
+          opcoes: [
+            "a) Quantitativa contínua",
+            "b) Qualitativa ordinal",
+            "c) Quantitativa discreta",
+            "d) Qualitativa nominal",
+          ],
+          correta: "a) Quantitativa contínua",
+        },
+        {
+          pergunta:
+            "9. A preferência dos motoristas pelo turno da manhã ou noite é classificada como:",
+          opcoes: [
+            "a) Qualitativa nominal",
+            "b) Qualitativa ordinal",
+            "c) Quantitativa contínua",
+            "d) Quantitativa discreta",
+          ],
+          correta: "a) Qualitativa nominal",
+        },
+        {
+          pergunta:
+            "10. O número de trajetos diferentes realizados por dia é uma variável:",
+          opcoes: [
+            "a) Qualitativa nominal",
+            "b) Quantitativa contínua",
+            "c) Qualitativa ordinal",
+            "d) Quantitativa discreta",
+          ],
+          correta: "d) Quantitativa discreta",
+        },
+      ];
+
+      let indice = 0;
+      let acertos = 0;
+      let erros = 0;
+      let respostas = Array(perguntas.length).fill(null);
+
+      const questionEl = document.getElementById("question");
+      const answersEl = document.getElementById("answers");
+      const resultadoEl = document.getElementById("resultado");
+      const nextBtn = document.getElementById("next");
+      const prevBtn = document.getElementById("prev");
+      const restartBtn = document.getElementById("restart");
+      const placarFinalEl = document.getElementById("placar-final");
+
+      function mostrarPergunta() {
+        const atual = perguntas[indice];
+        questionEl.textContent = atual.pergunta;
+        answersEl.innerHTML = "";
+        resultadoEl.textContent = "";
+        placarFinalEl.textContent = "";
+
+        atual.opcoes.forEach((opcao) => {
+          const btn = document.createElement("button");
+          btn.className = "option";
+          btn.textContent = opcao;
+          btn.onclick = () => verificarResposta(btn, atual.correta);
+          answersEl.appendChild(btn);
+
+          if (respostas[indice] === opcao) {
+            btn.style.backgroundColor =
+              opcao === atual.correta ? "#c8e6c9" : "#ffcdd2";
+            resultadoEl.textContent =
+              opcao === atual.correta
+                ? "Correto!"
+                : Errado! Resposta correta: ${atual.correta};
+            resultadoEl.style.color = opcao === atual.correta ? "green" : "red";
+          }
+        });
+
+        prevBtn.style.display = indice === 0 ? "none" : "inline-block";
+        nextBtn.style.display = "inline-block";
+        restartBtn.style.display = "none";
+      }
+
+      function verificarResposta(botao, correta) {
+        const botoes = document.querySelectorAll(".option");
+        botoes.forEach((btn) => (btn.disabled = true));
+
+        const resposta = botao.textContent;
+        respostas[indice] = resposta;
+
+        if (resposta === correta) {
+          botao.style.backgroundColor = "#c8e6c9";
+          resultadoEl.textContent = "Correto!";
+          resultadoEl.style.color = "green";
+        } else {
+          botao.style.backgroundColor = "#ffcdd2";
+          resultadoEl.textContent = "Errado! Resposta correta: " + correta;
+          resultadoEl.style.color = "red";
+        }
+      }
+
+      nextBtn.onclick = () => {
+        if (indice < perguntas.length - 1) {
+          indice++;
+          mostrarPergunta();
+        } else {
+          mostrarResultadoFinal();
+        }
+      };
+
+      prevBtn.onclick = () => {
+        if (indice > 0) {
+          indice--;
+          mostrarPergunta();
+        }
+      };
+
+      restartBtn.onclick = () => {
+        indice = 0;
+        acertos = 0;
+        erros = 0;
+        respostas = Array(perguntas.length).fill(null);
+        mostrarPergunta();
+      };
+
+      function mostrarResultadoFinal() {
+        acertos = 0;
+        erros = 0;
+        respostas.forEach((resposta, i) => {
+          if (resposta === perguntas[i].correta) acertos++;
+          else erros++;
+        });
+
+        questionEl.textContent = "Fim do Quiz!";
+        answersEl.innerHTML = "";
+        resultadoEl.textContent = "";
+        nextBtn.style.display = "none";
+        prevBtn.style.display = "none";
+        restartBtn.style.display = "inline-block";
+        placarFinalEl.innerHTML = `
+        <p>Você acertou <strong>${acertos}</strong> de ${perguntas.length} perguntas.</p>
+        <p>Erros: <strong>${erros}</strong></p>
+        <p>Obrigado por jogar!</p>
+      `;
+      }
+
+      mostrarPergunta();
+    </script>
+  </body>
+</html>
